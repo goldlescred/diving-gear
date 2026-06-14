@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparatif — Combinaisons</title>
+<style>
+  :root{--teal:#0f5e6b;--teal2:#13788a;--ink:#1c2b30;--line:#e3e9eb;--bg:#f4f7f8;--muted:#6a7a7d;
+        --green:#1e7e34;--gold:#9a6a00;--slate:#5a6b6e;--bm:#e7f1f3;--sm:#fbf2dd;--pick:#eef7f4}
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);margin:0;background:var(--bg);line-height:1.45}
+  a{color:var(--teal2)}
+  .nav{background:var(--teal);color:#fff;padding:0 18px}
+  .nav .inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+  .nav a{color:#fff;text-decoration:none;font-size:13.5px;font-weight:bold;padding:13px 14px;display:inline-block}
+  .nav a:hover{background:rgba(255,255,255,.12)}
+  .nav a.active{background:rgba(255,255,255,.20)}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+  h1{font-size:25px;margin:6px 0 2px;color:var(--ink)}
+  .lead{color:var(--muted);font-size:13.5px;margin:2px 0 22px}
+  h2{font-size:20px;margin:2px 0 10px;color:var(--teal)}
+  h3{font-size:14px;color:#fff;background:var(--teal);padding:8px 13px;border-radius:6px;margin:26px 0 12px;
+     display:flex;align-items:center;gap:8px}
+  h3 .count{margin-left:auto;font-size:11px;font-weight:normal;background:rgba(255,255,255,.18);padding:2px 9px;border-radius:20px}
+  /* Cartes devis (accueil) */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:16px;margin:0 0 22px}
+  .cfg{background:#fff;border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:12px;
+       padding:18px 20px;box-shadow:0 2px 8px rgba(15,94,107,.08);display:flex;flex-direction:column}
+  .cfg.bm{border-top-color:var(--teal)}
+  .cfg.sm{border-top-color:var(--gold)}
+  .cfg.th{border-top-color:var(--green)}
+  .cfg.ac{border-top-color:var(--slate)}
+  .cfg .kicker{font-size:11px;font-weight:bold;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+  .cfg h2{font-size:19px;margin:2px 0 10px}
+  .cfg.sm h2{color:var(--gold)}
+  .cfg.th h2{color:var(--green)}
+  .cfg.ac h2{color:var(--slate)}
+  .tot{display:flex;gap:22px;margin:6px 0 4px}
+  .tot .big{font-size:23px;font-weight:bold;color:var(--ink)}
+  .tot .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .split{font-size:12px;color:var(--muted);margin:10px 0 0;border-top:1px dashed var(--line);padding-top:9px}
+  .split b{color:var(--ink)}
+  .split .row{display:flex;justify-content:space-between;padding:2px 0}
+  .cfg .go{margin-top:auto;padding-top:15px}
+  .btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:bold;
+       font-size:13.5px;padding:10px 16px;border-radius:8px}
+  .cfg.sm .btn{background:var(--gold)}
+  .cfg.th .btn{background:var(--green)}
+  .cfg.ac .btn{background:var(--slate)}
+  .btn:hover{filter:brightness(1.08)}
+  /* Setups complets */
+  .combos{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin:0 0 24px}
+  .combo{background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:10px;padding:13px 16px}
+  .combo.sm{border-left-color:var(--gold)}
+  .combo .ttl{font-weight:bold;color:var(--ink);font-size:14px}
+  .combo .big{font-size:20px;font-weight:bold;color:var(--teal)}
+  .combo.sm .big{color:var(--gold)}
+  .combo .parts{font-size:11.5px;color:var(--muted);margin-top:4px}
+  /* Grille de liens comparatifs */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .card{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;
+        text-decoration:none;color:inherit;transition:transform .08s ease,box-shadow .12s ease,border-color .12s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(15,94,107,.16);border-color:#bcd7dc}
+  .card .t{font-weight:bold;color:var(--teal);font-size:13.5px;display:block;margin-bottom:2px}
+  .card .d{color:var(--muted);font-size:11.5px;display:block}
+  /* Tableaux */
+  table{border-collapse:collapse;width:100%;background:#fff;font-size:12.5px;margin:0 0 8px;
+        border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  thead th{background:var(--teal);color:#fff;text-align:left;padding:8px 10px;font-size:11.5px;
+           font-weight:bold;border-right:1px solid rgba(255,255,255,.15)}
+  tbody td{padding:7px 10px;border-top:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fafcfc}
+  td.num,th.num{text-align:right;white-space:nowrap}
+  .na{color:var(--muted)}
+  .thumb{width:52px;height:52px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:6px;display:block}
+  td .thumb{margin:0 auto}
+  .noimg{color:var(--muted);font-size:11px}
+  .equip{display:flex;gap:13px;align-items:center}
+  .ephoto{width:72px;height:72px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px;display:block;padding:4px}
+  .ephoto-link{display:inline-block;line-height:0}
+  .ephoto-link:hover .ephoto{border-color:var(--teal);box-shadow:0 2px 10px rgba(15,94,107,.20)}
+  span.ephoto{width:72px;height:72px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px}
+  .equip-name{font-size:13.5px;font-weight:bold}
+  .equip-name a{color:var(--teal2);text-decoration:none}
+  .equip-name a:hover{text-decoration:underline}
+  .pick{background:var(--pick)!important}
+  .badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+  .badge{font-size:10px;font-weight:bold;padding:2px 7px;border-radius:20px;white-space:nowrap}
+  .badge.bm{background:var(--teal);color:#fff}
+  .badge.sm{background:var(--gold);color:#fff}
+  .badge.th{background:var(--green);color:#fff}
+  .badge.ac{background:var(--slate);color:#fff}
+  .notdispo{opacity:.62}
+  .tag{font-size:10px;font-weight:bold;padding:1px 6px;border-radius:4px;background:#eef4f5;color:var(--muted)}
+  .tag.no{background:#fbe9e9;color:#a33}
+  .subtotal td{background:#eef4f5;font-weight:bold;border-top:2px solid var(--teal)}
+  .grandtotal td{background:var(--teal);color:#fff;font-weight:bold;font-size:13.5px}
+  .grandtotal a{color:#fff}
+  .secwrap{margin-bottom:26px}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+  @media print{.card,.cfg,.combo{box-shadow:none}.nav{display:none}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="inner">
+      <a href="index.html">Accueil</a>
+      <a href="liste-bcd_backmount.html">Backmount BCD</a>
+      <a href="liste-bcd_sidemount.html">Sidemount BCD</a>
+      <a href="liste-thermal.html">Thermique</a>
+      <a href="liste-accessories.html">Accessoires</a>
+    </div></nav>
+<div class="wrap">
+<h1>Comparatif — Combinaisons</h1>
+<p class="lead">18 modèles comparés. Tri : disponibles en Europe d'abord, par prix croissant. Les lignes surlignées sont retenues dans un devis.</p>
+<table>
+      <thead><tr><th>Photo</th><th>Marque</th><th>Modèle</th><th>Usage recommandé</th><th>Spécifications</th><th>Région</th><th class="num">Prix</th><th class="num">Poids</th><th>Liens</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><img class="thumb" src="https://typhoon-int.co.uk/wp-content/uploads/2021/09/250513-Centre5-Wetsuit-BLACK_BLUE_1.jpg" alt="Typhoon Centre 5 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Typhoon</td>
+          <td>Centre 5 mm</td>
+          <td>Néoprène pétrole, gamme location, sans cagoule</td>
+          <td>Max 5 mm</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">159,99 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/typhoon-centre-5-mm-diving-wetsuit/138729260/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://typhoon-int.co.uk/shop/typhoon-leisure/centre-range-typhoon-leisure/centre5-wetsuit/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="pick">
+          <td><img class="thumb" src="https://johnsonoutdoors.widen.net/content/e3eazvvnmw/webp/SP_63770X00_Everflex_Yulex_Vest_5-3MM_01.webp" alt="Scubapro Yulex 5/3 mm veste à cagoule" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Scubapro</td>
+          <td>Yulex 5/3 mm veste à cagoule<div class="badges"><span class="badge th">★ Thermique</span></div></td>
+          <td>SANS néoprène, cagoule attenante, double le torse à ~12,5 mm</td>
+          <td>Se porte sous l intégrale</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">279 €</td>
+          <td class="num">0,9 kg</td>
+          <td><a href="https://www.lucasdivestore.com/fr/scubapro-everflex-yulex-5-3mm-veste-a-cagoule-homm.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://scubapro.johnsonoutdoors.com/eu/fr-fr/shop/dive-wear/wetsuits/veste-cagoule-everflex-yulex-dive-homme-5-3mm/63770700" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://images.squarespace-cdn.com/content/v1/56b4b35ae707eba047459f7d/1781262815569-PBFV0Z1J8U3D4C8713GR/maleME.png" alt="Pinnacle Merino Elastiprene 7 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Pinnacle</td>
+          <td>Merino Elastiprene 7 mm</td>
+          <td>Néoprène pétrole + doublure mérinos, pas de cagoule</td>
+          <td>Humide</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">289,99 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/pinnacle-aquatics-merino-elastiprene-7-mm-diving-wetsuit/143019972/p" target="_blank" rel="noopener">Revendeur</a><br><a href="http://www.pinnacleaquatics.com/merino-elastiprene" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.polosub.com/images/site_catalog_art/1/image/Liscia-spaccata.jpg" alt="Polosub Lisse Refendu open-cell" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Polosub</td>
+          <td>Lisse Refendu open-cell</td>
+          <td>Apnée/chasse, open-cell à même la peau (pas scuba 45 m)</td>
+          <td>Sur-mesure</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">358 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.polosub.com/fra/catalogue/cat-1-lisse-refendu" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.polosub.com/fra/catalogue/cat-1-lisse-refendu" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Mares</td>
+          <td>Pro Therm 8/7 mm</td>
+          <td>Néoprène pétrole, cagoule intégrée</td>
+          <td>Fire Plush, joints Glideskin</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">398,99 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/mares-pro-therm-8-7-mm-diving-wetsuit/139380892/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.mares.com/en/pro-therm-8-7-412437" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.beuchat-sports.com/4669-medium_default/med-c-zip-homme.jpg" alt="Beuchat Med C-Zip 8/7 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Beuchat</td>
+          <td>Med C-Zip 8/7 mm</td>
+          <td>Limestone, doublure Fireskin intégrale, cagoule intégrée</td>
+          <td>Zip frontal semi-étanche</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">399 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.scubazar.fr/plongee/combinaisons-de-plongee/combinaisons-humides/combinaison-med-c-zip-homme-monopiece-8-7-mm-avec-zip-frontal-horizontal.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.beuchat-sports.com/gb/wetsuits-diving/445-med-c-zip-homme.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://us.aqualung.com/cdn/shop/files/SU890_Black_1.jpg?v=1767953816&amp;width=500" alt="Aqua Lung Solaflex 8/7 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Aqua Lung</td>
+          <td>Solaflex 8/7 mm</td>
+          <td>Néoprène sans pétrole/HAP + colle eau, cagoule attenante</td>
+          <td>Coutures Liquid Fusion</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">449 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.scubazar.fr/plongee/combinaisons-de-plongee/combinaisons-semi-etanches/combinaison-solaflex-8mm-cagoule-attenante-homme.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://us.aqualung.com/products/solaflex-men-s-dive-wetsuit-8-7mm" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://xcelwetsuits.eu/cdn/shop/files/MC76XCU0_BLK_Xcel_Fullsuits_F_Web.jpg?v=1759353939&amp;width=1946" alt="Xcel Thermoflex Celliant 7/6 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Xcel</td>
+          <td>Thermoflex Celliant 7/6 mm</td>
+          <td>Limestone japonais + doublure IR Celliant</td>
+          <td>Zip dorsal, cagoule séparée</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~439–549 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://xcelwetsuits.eu/products/mens-thermoflex-celliant-dive-fullsuit-7-6mm" target="_blank" rel="noopener">Revendeur</a><br><a href="https://xcelwetsuits.eu/products/mens-thermoflex-celliant-dive-fullsuit-7-6mm" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.camaro-watersports.com/media/87/6d/e6/1673613413/c-en-c914559-gamma-x-treme-men-2.jpg?ts=1704982775" alt="Camaro Gamma X-Treme 7 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Camaro</td>
+          <td>Gamma X-Treme 7 mm</td>
+          <td>Limestone, cagoule + chaussons attenants, TRU-Zip</td>
+          <td>Semi-étanche</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">449,95 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.camaro-watersports.com/en/Gamma-X-Treme-7-mm-OV-Herren/C7914559-99-50" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.camaro-watersports.com/en/Gamma-X-Treme-7-mm-OV-Herren/C7914559-99-50" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="pick">
+          <td><img class="thumb" src="https://johnsonoutdoors.widen.net/content/ln8cads8iy/webp/SP_63772X00_Everflex_Yulex_7.5-5_M_01.webp?w=640" alt="Scubapro Everflex YULEX 7,5/5 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Scubapro</td>
+          <td>Everflex YULEX 7,5/5 mm<div class="badges"><span class="badge th">★ Thermique</span></div></td>
+          <td>SANS néoprène (Yulex, caoutchouc naturel FSC) — hypoallergénique</td>
+          <td>Humide intégrale, doublure polaire Diamond Span</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">479 €</td>
+          <td class="num">3 kg</td>
+          <td><a href="https://www.diveboutik.com/combinaison-plongee/2228-combinaison-scubapro-everflex-yulex-homme-7-mm.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://scubapro.johnsonoutdoors.com/us/shop/dive-wear/wetsuits/everflex-yulex-dive-steamer-men-75-50mm" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.hollis.com/wp-content/uploads/sites/5/2021/04/Hollis_Neotek_01-600x600.jpg" alt="Hollis NeoTek 8/7/6 V2" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Hollis</td>
+          <td>NeoTek 8/7/6 V2</td>
+          <td>Chloroprène, donné 7-12°C, cagoule attenante</td>
+          <td>Coutures quadruple-collées</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">499,99 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.diveavenue.com/en/hollis/1961-hollis-neotek-semi-drysuit-diving-suit.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.hollis.com/product/neotek-semi-drysuit-2/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://b2b.seacsub.com/app/media/uploads/image_repository/7623/Spacedry-2025-donna_800.jpg" alt="Seac Spacedry 7 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Seac</td>
+          <td>Spacedry 7 mm</td>
+          <td>Néoprène pétrole, cagoule incluse</td>
+          <td>Titex Master Seal</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">499,99 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.planet-plongee.fr/combinaisons-semi-etanches/8689-combinaison-seac-spacedry-7mm.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://b2b.seacsub.com/en/seacsub/0010461/muta-sem-space-dry.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://cdn.shopify.com/s/files/1/0272/0183/0982/files/Wetsuit_Diving_Monopiece_Semi_Dry_Ice_Black_man_7mm_1__WEB.jpg?v=1746715121" alt="Cressi ICE 7 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Cressi</td>
+          <td>ICE 7 mm</td>
+          <td>Néoprène pétrole, classe B (10-18°C)</td>
+          <td>Cagoule séparée</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">549 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://globalneoprene.com/fr/plongee/170-combinaison-plongee-semi-etanche-homme-cressi-ice-7mm.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://store.cressi.com/products/ice-man-semi-dry-wetsuit" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.eliossub.com/wp-content/uploads/2019/04/Elios-Natura-5-mm-1-877x1024-256x300.jpg" alt="Elios Natura semi-étanche 7 mm 2-pièces" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Elios</td>
+          <td>Natura semi-étanche 7 mm 2-pièces</td>
+          <td>Limestone 99,7% CaCO3, mérinos en option, sur-mesure</td>
+          <td>Custom non remboursable, cagoule incluse</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~450–650 € (devis)</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.eliossub.com/our-wetsuits/wetsuit-catalogue/natura-wetsuit/" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.eliossub.com/our-wetsuits/wetsuit-catalogue/natura-wetsuit/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Fourth Element</td>
+          <td>Proteus II 5 mm</td>
+          <td>Limestone (FE dit NON hypoallergénique), doublure Hexcore</td>
+          <td>5 mm, cagoule séparée</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">594,5 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://fourthelement.com/product/mens-proteus-ii-5mm-diving-wetsuit/" target="_blank" rel="noopener">Revendeur</a><br><a href="https://fourthelement.com/product/mens-proteus-ii-5mm-diving-wetsuit/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.hendersoneurope.com/wp-content/uploads/2023/04/vyr_172GP830MB_01_FRONT_WEB.jpg" alt="Henderson Greenprene 7 mm Back-Zip" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Henderson</td>
+          <td>Greenprene 7 mm Back-Zip</td>
+          <td>SANS néoprène (canne à sucre + huître), vendue pour allergiques</td>
+          <td>Back-zip, cagoule 7/5 séparée (indispo EU)</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~611 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.hendersoneurope.com/product/mens-greenprene-back-zip-fullsuit/" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.hendersoneurope.com/product/mens-greenprene-back-zip-fullsuit/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.baresports.com/wp-content/uploads/sites/7/2025/04/002181BLK_8-7mm-Velocity-Ultra-2.0-Semi-Dry_Black_Front-View_web.png" alt="Bare Velocity Ultra 8/7 mm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Bare</td>
+          <td>Velocity Ultra 8/7 mm</td>
+          <td>Chloroprène (Prop 65), doublure IR Omnired</td>
+          <td>Cagoule attenante</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">636,99 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/bare-velocity-ultra-8-7-mm-semi-dry-suit/138027396/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.baresports.com/products/mens-wetsuits/velocity-ultra/8-7-velocity-ultra-2-0-semi-dry/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Waterproof</td>
+          <td>SD Combat 7 mm</td>
+          <td>Limestone, zip sec étanche aux gaz, cagoule H1 incluse</td>
+          <td>Joints glideskin au contact peau</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">796 €</td>
+          <td class="num"><span class="na">—</span></td>
+          <td><a href="https://www.palanquee.com/combinaison-sd-combat-waterproof-7mm-homme" target="_blank" rel="noopener">Revendeur</a><br><a href="https://waterproof-usa.com/products/semidry/sd-combat/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+      </tbody>
+    </table>
+<footer>Page générée automatiquement par <code>generate.js</code> depuis <code>gear.db</code>. Ne pas éditer à la main.</footer>
+</div>
+</body>
+</html>

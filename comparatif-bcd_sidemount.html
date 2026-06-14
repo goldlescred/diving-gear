@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparatif — Stab sidemount</title>
+<style>
+  :root{--teal:#0f5e6b;--teal2:#13788a;--ink:#1c2b30;--line:#e3e9eb;--bg:#f4f7f8;--muted:#6a7a7d;
+        --green:#1e7e34;--gold:#9a6a00;--slate:#5a6b6e;--bm:#e7f1f3;--sm:#fbf2dd;--pick:#eef7f4}
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);margin:0;background:var(--bg);line-height:1.45}
+  a{color:var(--teal2)}
+  .nav{background:var(--teal);color:#fff;padding:0 18px}
+  .nav .inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+  .nav a{color:#fff;text-decoration:none;font-size:13.5px;font-weight:bold;padding:13px 14px;display:inline-block}
+  .nav a:hover{background:rgba(255,255,255,.12)}
+  .nav a.active{background:rgba(255,255,255,.20)}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+  h1{font-size:25px;margin:6px 0 2px;color:var(--ink)}
+  .lead{color:var(--muted);font-size:13.5px;margin:2px 0 22px}
+  h2{font-size:20px;margin:2px 0 10px;color:var(--teal)}
+  h3{font-size:14px;color:#fff;background:var(--teal);padding:8px 13px;border-radius:6px;margin:26px 0 12px;
+     display:flex;align-items:center;gap:8px}
+  h3 .count{margin-left:auto;font-size:11px;font-weight:normal;background:rgba(255,255,255,.18);padding:2px 9px;border-radius:20px}
+  /* Cartes devis (accueil) */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:16px;margin:0 0 22px}
+  .cfg{background:#fff;border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:12px;
+       padding:18px 20px;box-shadow:0 2px 8px rgba(15,94,107,.08);display:flex;flex-direction:column}
+  .cfg.bm{border-top-color:var(--teal)}
+  .cfg.sm{border-top-color:var(--gold)}
+  .cfg.th{border-top-color:var(--green)}
+  .cfg.ac{border-top-color:var(--slate)}
+  .cfg .kicker{font-size:11px;font-weight:bold;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+  .cfg h2{font-size:19px;margin:2px 0 10px}
+  .cfg.sm h2{color:var(--gold)}
+  .cfg.th h2{color:var(--green)}
+  .cfg.ac h2{color:var(--slate)}
+  .tot{display:flex;gap:22px;margin:6px 0 4px}
+  .tot .big{font-size:23px;font-weight:bold;color:var(--ink)}
+  .tot .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .split{font-size:12px;color:var(--muted);margin:10px 0 0;border-top:1px dashed var(--line);padding-top:9px}
+  .split b{color:var(--ink)}
+  .split .row{display:flex;justify-content:space-between;padding:2px 0}
+  .cfg .go{margin-top:auto;padding-top:15px}
+  .btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:bold;
+       font-size:13.5px;padding:10px 16px;border-radius:8px}
+  .cfg.sm .btn{background:var(--gold)}
+  .cfg.th .btn{background:var(--green)}
+  .cfg.ac .btn{background:var(--slate)}
+  .btn:hover{filter:brightness(1.08)}
+  /* Setups complets */
+  .combos{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin:0 0 24px}
+  .combo{background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:10px;padding:13px 16px}
+  .combo.sm{border-left-color:var(--gold)}
+  .combo .ttl{font-weight:bold;color:var(--ink);font-size:14px}
+  .combo .big{font-size:20px;font-weight:bold;color:var(--teal)}
+  .combo.sm .big{color:var(--gold)}
+  .combo .parts{font-size:11.5px;color:var(--muted);margin-top:4px}
+  /* Grille de liens comparatifs */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .card{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;
+        text-decoration:none;color:inherit;transition:transform .08s ease,box-shadow .12s ease,border-color .12s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(15,94,107,.16);border-color:#bcd7dc}
+  .card .t{font-weight:bold;color:var(--teal);font-size:13.5px;display:block;margin-bottom:2px}
+  .card .d{color:var(--muted);font-size:11.5px;display:block}
+  /* Tableaux */
+  table{border-collapse:collapse;width:100%;background:#fff;font-size:12.5px;margin:0 0 8px;
+        border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  thead th{background:var(--teal);color:#fff;text-align:left;padding:8px 10px;font-size:11.5px;
+           font-weight:bold;border-right:1px solid rgba(255,255,255,.15)}
+  tbody td{padding:7px 10px;border-top:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fafcfc}
+  td.num,th.num{text-align:right;white-space:nowrap}
+  .na{color:var(--muted)}
+  .thumb{width:52px;height:52px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:6px;display:block}
+  td .thumb{margin:0 auto}
+  .noimg{color:var(--muted);font-size:11px}
+  .equip{display:flex;gap:13px;align-items:center}
+  .ephoto{width:72px;height:72px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px;display:block;padding:4px}
+  .ephoto-link{display:inline-block;line-height:0}
+  .ephoto-link:hover .ephoto{border-color:var(--teal);box-shadow:0 2px 10px rgba(15,94,107,.20)}
+  span.ephoto{width:72px;height:72px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px}
+  .equip-name{font-size:13.5px;font-weight:bold}
+  .equip-name a{color:var(--teal2);text-decoration:none}
+  .equip-name a:hover{text-decoration:underline}
+  .pick{background:var(--pick)!important}
+  .badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+  .badge{font-size:10px;font-weight:bold;padding:2px 7px;border-radius:20px;white-space:nowrap}
+  .badge.bm{background:var(--teal);color:#fff}
+  .badge.sm{background:var(--gold);color:#fff}
+  .badge.th{background:var(--green);color:#fff}
+  .badge.ac{background:var(--slate);color:#fff}
+  .notdispo{opacity:.62}
+  .tag{font-size:10px;font-weight:bold;padding:1px 6px;border-radius:4px;background:#eef4f5;color:var(--muted)}
+  .tag.no{background:#fbe9e9;color:#a33}
+  .subtotal td{background:#eef4f5;font-weight:bold;border-top:2px solid var(--teal)}
+  .grandtotal td{background:var(--teal);color:#fff;font-weight:bold;font-size:13.5px}
+  .grandtotal a{color:#fff}
+  .secwrap{margin-bottom:26px}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+  @media print{.card,.cfg,.combo{box-shadow:none}.nav{display:none}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="inner">
+      <a href="index.html">Accueil</a>
+      <a href="liste-bcd_backmount.html">Backmount BCD</a>
+      <a href="liste-bcd_sidemount.html">Sidemount BCD</a>
+      <a href="liste-thermal.html">Thermique</a>
+      <a href="liste-accessories.html">Accessoires</a>
+    </div></nav>
+<div class="wrap">
+<h1>Comparatif — Stab sidemount</h1>
+<p class="lead">14 modèles comparés. Tri : disponibles en Europe d'abord, par prix croissant. Les lignes surlignées sont retenues dans un devis.</p>
+<table>
+      <thead><tr><th>Photo</th><th>Marque</th><th>Modèle</th><th>Usage recommandé</th><th>Spécifications</th><th>DIR</th><th>Région</th><th class="num">Prix</th><th class="num">Poids</th><th>Liens</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Mares XR</td>
+          <td>Pure Light Sidemount Set</td>
+          <td>Modulaire, vessie souple bas-profil, ferrures alu</td>
+          <td>Portance 10 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">370,99 €</td>
+          <td class="num">~2,5–3 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/mares-xr-pure-light-bcd-jacket/137086810/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.mares.com/en_US/pure-light-sidemount-set" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://eshop.daretodive.eu/userdata/cache/images/storecards/2102/900/2102.jpg" alt="DTD / DIRZone DIAMOND" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>DTD / DIRZone</td>
+          <td>DIAMOND</td>
+          <td>Modulaire, sangle continue + mini-plaques trim, certifié CE</td>
+          <td>Portance 13 kg (L)</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~462 €</td>
+          <td class="num">~2,4 kg</td>
+          <td><a href="https://jonasdive.com/en/complete-wings/289-dtd-diamond.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://eshop.daretodive.eu/harness-for-sidemount-diamond-complete/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://teclinediving.eu/img/2878/sidemount-bcd-side-16-avenger-16-kg-buoyancy.jpg" alt="Tecline SIDE 16 Avenger" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Tecline</td>
+          <td>SIDE 16 Avenger</td>
+          <td>Intégré, Cordura 2000D, 4 poches lest</td>
+          <td>Portance 16 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">553,5 €</td>
+          <td class="num">~3,5 kg (avec lest)</td>
+          <td><a href="https://www.diveavenue.com/en/bcd-and-wings-sidemount/2884-tecline-sidemount-side16.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://katalog.tecline.com.pl/en/sidemount-bcd-side-16-avenger-16-kg-buoyancy,3,5170,4260" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://static.wixstatic.com/media/85d675_bd49105c026a4b8c9966bfffbe18a75d~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="OMS SideStream 27" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>OMS</td>
+          <td>SideStream 27</td>
+          <td>Intégré softpack, vessie arrière unique (back-inflate)</td>
+          <td>Portance 12,25 kg</td>
+          <td>🟡</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">559 €</td>
+          <td class="num">3,16 kg</td>
+          <td><a href="https://www.sidemountshop.de/en/p/oms-sidestream-27" target="_blank" rel="noopener">Revendeur</a><br><a href="https://en.omsdive.store/produktseite/oms-sidestream-27lbs" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.hollis.com/wp-content/uploads/sites/5/2020/05/Katana2-Front-1200x1200-1.jpeg" alt="Hollis SMS Katana 2" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Hollis</td>
+          <td>SMS Katana 2</td>
+          <td>Intégré, aile trapézoïdale, mounts CCR natifs</td>
+          <td>Portance 18 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">578,99 €</td>
+          <td class="num">3,6 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/fr/hollis-bcd-sms-katana-2/137186444/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.hollis.com/product/sms-katana-2/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="pick">
+          <td><img class="thumb" src="https://www.xdeep.eu/pictures/products/stealth-tec/product.png" alt="xDeep Stealth 2.0 TEC" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>xDeep</td>
+          <td>Stealth 2.0 TEC<div class="badges"><span class="badge sm">★ Sidemount BCD</span></div></td>
+          <td>Intégré, sangle continue DIR, wing latéral souple</td>
+          <td>Portance 19 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">589–619 €</td>
+          <td class="num">2,8 kg</td>
+          <td><a href="https://www.palanquee.com/harnais-sidemount-stealth-2-0-tec-xdeep" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.xdeep.eu/sidemount-bc-wing-stealth-tec-pr-106.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://diverite.com/wp-content/uploads/2024/07/Nomad-Ray-Black.jpg" alt="Dive Rite Nomad Ray" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Dive Rite</td>
+          <td>Nomad Ray</td>
+          <td>Intégré, 3 poches lest, quincaillerie inox</td>
+          <td>Portance 19 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">729,92 €</td>
+          <td class="num">2,6 kg</td>
+          <td><a href="https://www.gidivestore.com/eu/en/sidemount-sets/dive-rite-nomad-ray.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://diverite.com/products/nomad-sidemount/nomad-ray-sidemount-system/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://cdn.sanity.io/images/1jl085ly/production/80ab2fbd2655b5e6dd29d91751dc663e965a087b-1200x1200.png" alt="Halcyon Zero Gravity" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Halcyon</td>
+          <td>Zero Gravity</td>
+          <td>Intégré, wing en U, sangle continue cinch</td>
+          <td>Portance 12,25 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">799 €</td>
+          <td class="num">~1,8–2,5 kg</td>
+          <td><a href="https://www.diveavenue.com/en/bcd-and-wings-sidemount/2920-halcyon-zero-gravity-side-mount-system.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.halcyon.net/products/halcyon-zero-gravity-sidemount-system" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Scubapro</td>
+          <td>X-TEK Sidemount</td>
+          <td>Modulaire, harnais Airnet + wing 12/20 L</td>
+          <td>Portance 12 ou 20 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~885 €</td>
+          <td class="num">~2,2–2,5 kg</td>
+          <td><a href="https://diving2000.com/shop/18-bcd/9082-scubapro-x-tek-sidemount-wing-12l/" target="_blank" rel="noopener">Revendeur</a><br><a href="https://ww2.scubapro.com/en-GB/SWE/x-tek/products/sidemount.aspx" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://razorgosidemount.b-cdn.net/wp-content/uploads/2022/07/Razor4_System_Complete-1.jpg" alt="Razor Razor 4 Complete" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Razor</td>
+          <td>Razor 4 Complete</td>
+          <td>Modulaire, bi-vessie redondante</td>
+          <td>Portance ~16 kg x2</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">889 €</td>
+          <td class="num">1,26 kg (harnais)</td>
+          <td><a href="https://razorgosidemount.eu/en/product/razor-4-side-mount-system-complete/" target="_blank" rel="noopener">Revendeur</a><br><a href="https://razorgosidemount.com/product/razor-4-side-mount-system-complete/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://finnsub.com/gallery/660x568/flysideblk-compl-valve-up_4-montaz-2.jpg" alt="Finnsub FLY SIDE" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Finnsub</td>
+          <td>FLY SIDE</td>
+          <td>Modulaire backplate alu, wing harmonica plat</td>
+          <td>Portance 12,45 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">890 €</td>
+          <td class="num">3,85 kg (alu)</td>
+          <td><a href="https://www.finnsub.com/en/sidemount-wings/fly-side" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.finnsub.com/en/sidemount-wings/fly-side" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://us.apeksdiving.com/cdn/shop/files/20Grey_1_64fc001d-7ef0-4d9a-aed4-8b1fb2f66d89.jpg?v=1768310320&amp;width=500" alt="Apeks WSX-45" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Apeks</td>
+          <td>WSX-45</td>
+          <td>Intégré, plaque inox 2 pièces, harnais non continu</td>
+          <td>Portance ~12 kg</td>
+          <td>🟡</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">999 €</td>
+          <td class="num">~3 kg</td>
+          <td><a href="https://www.diveboutik.com/stab-tek/1823-harnais-sidemount-apeks-wsx-45.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://us.apeksdiving.com/products/wsx-45-sidemount-system-complete-dive-bcd" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="notdispo">
+          <td><span class="noimg">—</span></td>
+          <td>SubGravity</td>
+          <td>Diamond Sidemount</td>
+          <td>Souple intégré, DIR/cave</td>
+          <td>Portance 8-13 kg</td>
+          <td>✅</td>
+          <td>US <span class="tag no">Import</span></td>
+          <td class="num">569 $</td>
+          <td class="num">~2,9 kg</td>
+          <td><a href="https://divecenter.com/subgravity-diamond-sidemount-system/" target="_blank" rel="noopener">Revendeur</a></td>
+        </tr>
+        <tr class="notdispo">
+          <td><img class="thumb" src="https://static.wixstatic.com/media/cb43a6_80eeab59d2b54c4a89c344c8293c135e~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="UTD Z-System / Z-Trim PRO" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>UTD</td>
+          <td>Z-System / Z-Trim PRO</td>
+          <td>Modulaire, signé Georgitsis</td>
+          <td>Portance 13-20 kg</td>
+          <td>✅</td>
+          <td>US <span class="tag no">Import</span></td>
+          <td class="num">899 $</td>
+          <td class="num">~1,5 kg</td>
+          <td><a href="https://www.utdscubaequipment.com/product-page/z-single-tank-system-complete-recreational-side-mount" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.utdscubaequipment.com/product-page/z-single-tank-system-complete-recreational-side-mount" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+      </tbody>
+    </table>
+<footer>Page générée automatiquement par <code>generate.js</code> depuis <code>gear.db</code>. Ne pas éditer à la main.</footer>
+</div>
+</body>
+</html>

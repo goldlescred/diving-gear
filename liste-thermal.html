@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devis — Protection thermale (avec chaussons)</title>
+<style>
+  :root{--teal:#0f5e6b;--teal2:#13788a;--ink:#1c2b30;--line:#e3e9eb;--bg:#f4f7f8;--muted:#6a7a7d;
+        --green:#1e7e34;--gold:#9a6a00;--slate:#5a6b6e;--bm:#e7f1f3;--sm:#fbf2dd;--pick:#eef7f4}
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);margin:0;background:var(--bg);line-height:1.45}
+  a{color:var(--teal2)}
+  .nav{background:var(--teal);color:#fff;padding:0 18px}
+  .nav .inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+  .nav a{color:#fff;text-decoration:none;font-size:13.5px;font-weight:bold;padding:13px 14px;display:inline-block}
+  .nav a:hover{background:rgba(255,255,255,.12)}
+  .nav a.active{background:rgba(255,255,255,.20)}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+  h1{font-size:25px;margin:6px 0 2px;color:var(--ink)}
+  .lead{color:var(--muted);font-size:13.5px;margin:2px 0 22px}
+  h2{font-size:20px;margin:2px 0 10px;color:var(--teal)}
+  h3{font-size:14px;color:#fff;background:var(--teal);padding:8px 13px;border-radius:6px;margin:26px 0 12px;
+     display:flex;align-items:center;gap:8px}
+  h3 .count{margin-left:auto;font-size:11px;font-weight:normal;background:rgba(255,255,255,.18);padding:2px 9px;border-radius:20px}
+  /* Cartes devis (accueil) */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:16px;margin:0 0 22px}
+  .cfg{background:#fff;border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:12px;
+       padding:18px 20px;box-shadow:0 2px 8px rgba(15,94,107,.08);display:flex;flex-direction:column}
+  .cfg.bm{border-top-color:var(--teal)}
+  .cfg.sm{border-top-color:var(--gold)}
+  .cfg.th{border-top-color:var(--green)}
+  .cfg.ac{border-top-color:var(--slate)}
+  .cfg .kicker{font-size:11px;font-weight:bold;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+  .cfg h2{font-size:19px;margin:2px 0 10px}
+  .cfg.sm h2{color:var(--gold)}
+  .cfg.th h2{color:var(--green)}
+  .cfg.ac h2{color:var(--slate)}
+  .tot{display:flex;gap:22px;margin:6px 0 4px}
+  .tot .big{font-size:23px;font-weight:bold;color:var(--ink)}
+  .tot .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .split{font-size:12px;color:var(--muted);margin:10px 0 0;border-top:1px dashed var(--line);padding-top:9px}
+  .split b{color:var(--ink)}
+  .split .row{display:flex;justify-content:space-between;padding:2px 0}
+  .cfg .go{margin-top:auto;padding-top:15px}
+  .btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:bold;
+       font-size:13.5px;padding:10px 16px;border-radius:8px}
+  .cfg.sm .btn{background:var(--gold)}
+  .cfg.th .btn{background:var(--green)}
+  .cfg.ac .btn{background:var(--slate)}
+  .btn:hover{filter:brightness(1.08)}
+  /* Setups complets */
+  .combos{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin:0 0 24px}
+  .combo{background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:10px;padding:13px 16px}
+  .combo.sm{border-left-color:var(--gold)}
+  .combo .ttl{font-weight:bold;color:var(--ink);font-size:14px}
+  .combo .big{font-size:20px;font-weight:bold;color:var(--teal)}
+  .combo.sm .big{color:var(--gold)}
+  .combo .parts{font-size:11.5px;color:var(--muted);margin-top:4px}
+  /* Grille de liens comparatifs */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .card{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;
+        text-decoration:none;color:inherit;transition:transform .08s ease,box-shadow .12s ease,border-color .12s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(15,94,107,.16);border-color:#bcd7dc}
+  .card .t{font-weight:bold;color:var(--teal);font-size:13.5px;display:block;margin-bottom:2px}
+  .card .d{color:var(--muted);font-size:11.5px;display:block}
+  /* Tableaux */
+  table{border-collapse:collapse;width:100%;background:#fff;font-size:12.5px;margin:0 0 8px;
+        border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  thead th{background:var(--teal);color:#fff;text-align:left;padding:8px 10px;font-size:11.5px;
+           font-weight:bold;border-right:1px solid rgba(255,255,255,.15)}
+  tbody td{padding:7px 10px;border-top:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fafcfc}
+  td.num,th.num{text-align:right;white-space:nowrap}
+  .na{color:var(--muted)}
+  .thumb{width:52px;height:52px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:6px;display:block}
+  td .thumb{margin:0 auto}
+  .noimg{color:var(--muted);font-size:11px}
+  .equip{display:flex;gap:13px;align-items:center}
+  .ephoto{width:72px;height:72px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px;display:block;padding:4px}
+  .ephoto-link{display:inline-block;line-height:0}
+  .ephoto-link:hover .ephoto{border-color:var(--teal);box-shadow:0 2px 10px rgba(15,94,107,.20)}
+  span.ephoto{width:72px;height:72px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px}
+  .equip-name{font-size:13.5px;font-weight:bold}
+  .equip-name a{color:var(--teal2);text-decoration:none}
+  .equip-name a:hover{text-decoration:underline}
+  .pick{background:var(--pick)!important}
+  .badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+  .badge{font-size:10px;font-weight:bold;padding:2px 7px;border-radius:20px;white-space:nowrap}
+  .badge.bm{background:var(--teal);color:#fff}
+  .badge.sm{background:var(--gold);color:#fff}
+  .badge.th{background:var(--green);color:#fff}
+  .badge.ac{background:var(--slate);color:#fff}
+  .notdispo{opacity:.62}
+  .tag{font-size:10px;font-weight:bold;padding:1px 6px;border-radius:4px;background:#eef4f5;color:var(--muted)}
+  .tag.no{background:#fbe9e9;color:#a33}
+  .subtotal td{background:#eef4f5;font-weight:bold;border-top:2px solid var(--teal)}
+  .grandtotal td{background:var(--teal);color:#fff;font-weight:bold;font-size:13.5px}
+  .grandtotal a{color:#fff}
+  .secwrap{margin-bottom:26px}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+  @media print{.card,.cfg,.combo{box-shadow:none}.nav{display:none}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="inner">
+      <a href="index.html">Accueil</a>
+      <a href="liste-bcd_backmount.html">Backmount BCD</a>
+      <a href="liste-bcd_sidemount.html">Sidemount BCD</a>
+      <a href="liste-thermal.html" class="active">Thermique</a>
+      <a href="liste-accessories.html">Accessoires</a>
+    </div></nav>
+<div class="wrap">
+<h1>Devis — Protection thermale (avec chaussons)</h1>
+<p class="lead">Détail poste par poste. Cliquez un choix pour ouvrir son comparatif. Prix et poids calculés depuis la base.</p>
+  <div class="secwrap">
+    <h3>Protection thermale <span class="count">5 postes</span></h3>
+    <table>
+      <thead><tr>
+        <th>Catégorie</th>
+        <th>Équipement</th>
+        <th class="num">Qté</th>
+        <th class="num">Prix unit.</th>
+        <th class="num">Poids unit.</th>
+        <th class="num">Sous-total €</th>
+        <th class="num">Sous-total kg</th>
+        <th>Achat</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><a href="comparatif-wetsuit.html">Combinaisons</a></td>
+          <td><div class="equip"><a class="ephoto-link" href="https://scubapro.johnsonoutdoors.com/us/shop/dive-wear/wetsuits/everflex-yulex-dive-steamer-men-75-50mm" target="_blank" rel="noopener" title="Fiche constructeur"><img class="ephoto" src="https://johnsonoutdoors.widen.net/content/ln8cads8iy/webp/SP_63772X00_Everflex_Yulex_7.5-5_M_01.webp?w=640" alt="Scubapro Everflex YULEX 7,5/5 mm" loading="lazy" referrerpolicy="no-referrer"></a><div class="equip-name"><a href="https://scubapro.johnsonoutdoors.com/us/shop/dive-wear/wetsuits/everflex-yulex-dive-steamer-men-75-50mm" target="_blank" rel="noopener">Scubapro Everflex YULEX 7,5/5 mm</a></div></div></td>
+          <td class="num">1</td>
+          <td class="num">479 €</td>
+          <td class="num">3 kg</td>
+          <td class="num">479 €</td>
+          <td class="num">3 kg</td>
+          <td><a href="https://www.diveboutik.com/combinaison-plongee/2228-combinaison-scubapro-everflex-yulex-homme-7-mm.html" target="_blank" rel="noopener">Acheter</a></td>
+        </tr>
+        <tr>
+          <td><a href="comparatif-wetsuit.html">Combinaisons</a></td>
+          <td><div class="equip"><a class="ephoto-link" href="https://scubapro.johnsonoutdoors.com/eu/fr-fr/shop/dive-wear/wetsuits/veste-cagoule-everflex-yulex-dive-homme-5-3mm/63770700" target="_blank" rel="noopener" title="Fiche constructeur"><img class="ephoto" src="https://johnsonoutdoors.widen.net/content/e3eazvvnmw/webp/SP_63770X00_Everflex_Yulex_Vest_5-3MM_01.webp" alt="Scubapro Yulex 5/3 mm veste à cagoule" loading="lazy" referrerpolicy="no-referrer"></a><div class="equip-name"><a href="https://scubapro.johnsonoutdoors.com/eu/fr-fr/shop/dive-wear/wetsuits/veste-cagoule-everflex-yulex-dive-homme-5-3mm/63770700" target="_blank" rel="noopener">Scubapro Yulex 5/3 mm veste à cagoule</a></div></div></td>
+          <td class="num">1</td>
+          <td class="num">279 €</td>
+          <td class="num">0,9 kg</td>
+          <td class="num">279 €</td>
+          <td class="num">0,9 kg</td>
+          <td><a href="https://www.lucasdivestore.com/fr/scubapro-everflex-yulex-5-3mm-veste-a-cagoule-homm.html" target="_blank" rel="noopener">Acheter</a></td>
+        </tr>
+        <tr>
+          <td><a href="comparatif-baselayer.html">Sous-couches thermiques</a></td>
+          <td><div class="equip"><a class="ephoto-link" href="https://sharkskin.com/products/t2-chillproof-long-sleeve-full-zip-top-mens" target="_blank" rel="noopener" title="Fiche constructeur"><img class="ephoto" src="https://sharkskin.com/cdn/shop/files/T2CHILLPROOFLONGSLEEVEFULLZIPTOP-MENS1_1800x1800.png?v=1778180557" alt="Sharkskin T2 Chillproof Top + Pants" loading="lazy" referrerpolicy="no-referrer"></a><div class="equip-name"><a href="https://sharkskin.com/products/t2-chillproof-long-sleeve-full-zip-top-mens" target="_blank" rel="noopener">Sharkskin T2 Chillproof Top + Pants</a></div></div></td>
+          <td class="num">1</td>
+          <td class="num">239 € top + ~213 € pants</td>
+          <td class="num">0,5 kg</td>
+          <td class="num">452 €</td>
+          <td class="num">0,5 kg</td>
+          <td><a href="https://www.diveavenue.com/en/sharkskin/3718-sharkskin-chilproof-t2-long-sleeve-top-men.html" target="_blank" rel="noopener">Acheter</a></td>
+        </tr>
+        <tr>
+          <td><a href="comparatif-boots.html">Bottillons &amp; chaussettes</a></td>
+          <td><div class="equip"><a class="ephoto-link" href="https://scubapro.johnsonoutdoors.com/eu/en-gb/shop/dive-wear/boots/heavy-duty-dive-boot-65mm" target="_blank" rel="noopener" title="Fiche constructeur"><img class="ephoto" src="https://johnsonoutdoors.widen.net/content/qb2wk1tty9/jpeg/SP_57055X00_HeavyDuty_Boot_1.jpg" alt="Scubapro Heavy-Duty 6,5 mm" loading="lazy" referrerpolicy="no-referrer"></a><div class="equip-name"><a href="https://scubapro.johnsonoutdoors.com/eu/en-gb/shop/dive-wear/boots/heavy-duty-dive-boot-65mm" target="_blank" rel="noopener">Scubapro Heavy-Duty 6,5 mm</a></div></div></td>
+          <td class="num">1</td>
+          <td class="num">94,50 €</td>
+          <td class="num">0,85 kg</td>
+          <td class="num">94,5 €</td>
+          <td class="num">0,85 kg</td>
+          <td><a href="https://www.lucasdivestore.com/en/scubapro-heavy-duty-boot.html" target="_blank" rel="noopener">Acheter</a></td>
+        </tr>
+        <tr>
+          <td><a href="comparatif-boots.html">Bottillons &amp; chaussettes</a></td>
+          <td><div class="equip"><a class="ephoto-link" href="https://sharkskin.com/products/chillproof-titanium-socks" target="_blank" rel="noopener" title="Fiche constructeur"><img class="ephoto" src="https://sharkskin.com/cdn/shop/products/Untitled-3_d463dd29-023e-49f7-86a9-870ee02add01_1800x1800.jpg?v=1654141348" alt="Sharkskin Chillproof TIFIR (chaussette)" loading="lazy" referrerpolicy="no-referrer"></a><div class="equip-name"><a href="https://sharkskin.com/products/chillproof-titanium-socks" target="_blank" rel="noopener">Sharkskin Chillproof TIFIR (chaussette)</a></div></div></td>
+          <td class="num">1</td>
+          <td class="num">55,90 €</td>
+          <td class="num">0,1 kg</td>
+          <td class="num">55,9 €</td>
+          <td class="num">0,1 kg</td>
+          <td><a href="https://www.palanquee.com/chaussons-tifir-sharkskin" target="_blank" rel="noopener">Acheter</a></td>
+        </tr>
+        <tr class="subtotal">
+          <td colspan="5">Sous-total Protection thermale</td>
+          <td class="num">1 360,4 €</td>
+          <td class="num">5,35 kg</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <table>
+      <tbody>
+        <tr class="grandtotal">
+          <td colspan="5">TOTAL DEVIS — Protection thermale (avec chaussons)</td>
+          <td class="num">1 360,4 €</td>
+          <td class="num">5,35 kg</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+<footer>Page générée automatiquement par <code>generate.js</code> depuis <code>gear.db</code>. Ne pas éditer à la main.</footer>
+</div>
+</body>
+</html>

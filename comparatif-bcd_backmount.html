@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparatif — BCD backmount (single tank)</title>
+<style>
+  :root{--teal:#0f5e6b;--teal2:#13788a;--ink:#1c2b30;--line:#e3e9eb;--bg:#f4f7f8;--muted:#6a7a7d;
+        --green:#1e7e34;--gold:#9a6a00;--slate:#5a6b6e;--bm:#e7f1f3;--sm:#fbf2dd;--pick:#eef7f4}
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);margin:0;background:var(--bg);line-height:1.45}
+  a{color:var(--teal2)}
+  .nav{background:var(--teal);color:#fff;padding:0 18px}
+  .nav .inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+  .nav a{color:#fff;text-decoration:none;font-size:13.5px;font-weight:bold;padding:13px 14px;display:inline-block}
+  .nav a:hover{background:rgba(255,255,255,.12)}
+  .nav a.active{background:rgba(255,255,255,.20)}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+  h1{font-size:25px;margin:6px 0 2px;color:var(--ink)}
+  .lead{color:var(--muted);font-size:13.5px;margin:2px 0 22px}
+  h2{font-size:20px;margin:2px 0 10px;color:var(--teal)}
+  h3{font-size:14px;color:#fff;background:var(--teal);padding:8px 13px;border-radius:6px;margin:26px 0 12px;
+     display:flex;align-items:center;gap:8px}
+  h3 .count{margin-left:auto;font-size:11px;font-weight:normal;background:rgba(255,255,255,.18);padding:2px 9px;border-radius:20px}
+  /* Cartes devis (accueil) */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:16px;margin:0 0 22px}
+  .cfg{background:#fff;border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:12px;
+       padding:18px 20px;box-shadow:0 2px 8px rgba(15,94,107,.08);display:flex;flex-direction:column}
+  .cfg.bm{border-top-color:var(--teal)}
+  .cfg.sm{border-top-color:var(--gold)}
+  .cfg.th{border-top-color:var(--green)}
+  .cfg.ac{border-top-color:var(--slate)}
+  .cfg .kicker{font-size:11px;font-weight:bold;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+  .cfg h2{font-size:19px;margin:2px 0 10px}
+  .cfg.sm h2{color:var(--gold)}
+  .cfg.th h2{color:var(--green)}
+  .cfg.ac h2{color:var(--slate)}
+  .tot{display:flex;gap:22px;margin:6px 0 4px}
+  .tot .big{font-size:23px;font-weight:bold;color:var(--ink)}
+  .tot .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .split{font-size:12px;color:var(--muted);margin:10px 0 0;border-top:1px dashed var(--line);padding-top:9px}
+  .split b{color:var(--ink)}
+  .split .row{display:flex;justify-content:space-between;padding:2px 0}
+  .cfg .go{margin-top:auto;padding-top:15px}
+  .btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:bold;
+       font-size:13.5px;padding:10px 16px;border-radius:8px}
+  .cfg.sm .btn{background:var(--gold)}
+  .cfg.th .btn{background:var(--green)}
+  .cfg.ac .btn{background:var(--slate)}
+  .btn:hover{filter:brightness(1.08)}
+  /* Setups complets */
+  .combos{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin:0 0 24px}
+  .combo{background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:10px;padding:13px 16px}
+  .combo.sm{border-left-color:var(--gold)}
+  .combo .ttl{font-weight:bold;color:var(--ink);font-size:14px}
+  .combo .big{font-size:20px;font-weight:bold;color:var(--teal)}
+  .combo.sm .big{color:var(--gold)}
+  .combo .parts{font-size:11.5px;color:var(--muted);margin-top:4px}
+  /* Grille de liens comparatifs */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .card{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;
+        text-decoration:none;color:inherit;transition:transform .08s ease,box-shadow .12s ease,border-color .12s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(15,94,107,.16);border-color:#bcd7dc}
+  .card .t{font-weight:bold;color:var(--teal);font-size:13.5px;display:block;margin-bottom:2px}
+  .card .d{color:var(--muted);font-size:11.5px;display:block}
+  /* Tableaux */
+  table{border-collapse:collapse;width:100%;background:#fff;font-size:12.5px;margin:0 0 8px;
+        border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  thead th{background:var(--teal);color:#fff;text-align:left;padding:8px 10px;font-size:11.5px;
+           font-weight:bold;border-right:1px solid rgba(255,255,255,.15)}
+  tbody td{padding:7px 10px;border-top:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fafcfc}
+  td.num,th.num{text-align:right;white-space:nowrap}
+  .na{color:var(--muted)}
+  .thumb{width:52px;height:52px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:6px;display:block}
+  td .thumb{margin:0 auto}
+  .noimg{color:var(--muted);font-size:11px}
+  .equip{display:flex;gap:13px;align-items:center}
+  .ephoto{width:72px;height:72px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px;display:block;padding:4px}
+  .ephoto-link{display:inline-block;line-height:0}
+  .ephoto-link:hover .ephoto{border-color:var(--teal);box-shadow:0 2px 10px rgba(15,94,107,.20)}
+  span.ephoto{width:72px;height:72px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px}
+  .equip-name{font-size:13.5px;font-weight:bold}
+  .equip-name a{color:var(--teal2);text-decoration:none}
+  .equip-name a:hover{text-decoration:underline}
+  .pick{background:var(--pick)!important}
+  .badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+  .badge{font-size:10px;font-weight:bold;padding:2px 7px;border-radius:20px;white-space:nowrap}
+  .badge.bm{background:var(--teal);color:#fff}
+  .badge.sm{background:var(--gold);color:#fff}
+  .badge.th{background:var(--green);color:#fff}
+  .badge.ac{background:var(--slate);color:#fff}
+  .notdispo{opacity:.62}
+  .tag{font-size:10px;font-weight:bold;padding:1px 6px;border-radius:4px;background:#eef4f5;color:var(--muted)}
+  .tag.no{background:#fbe9e9;color:#a33}
+  .subtotal td{background:#eef4f5;font-weight:bold;border-top:2px solid var(--teal)}
+  .grandtotal td{background:var(--teal);color:#fff;font-weight:bold;font-size:13.5px}
+  .grandtotal a{color:#fff}
+  .secwrap{margin-bottom:26px}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+  @media print{.card,.cfg,.combo{box-shadow:none}.nav{display:none}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="inner">
+      <a href="index.html">Accueil</a>
+      <a href="liste-bcd_backmount.html">Backmount BCD</a>
+      <a href="liste-bcd_sidemount.html">Sidemount BCD</a>
+      <a href="liste-thermal.html">Thermique</a>
+      <a href="liste-accessories.html">Accessoires</a>
+    </div></nav>
+<div class="wrap">
+<h1>Comparatif — BCD backmount (single tank)</h1>
+<p class="lead">14 modèles comparés. Tri : disponibles en Europe d'abord, par prix croissant. Les lignes surlignées sont retenues dans un devis.</p>
+<table>
+      <thead><tr><th>Photo</th><th>Marque</th><th>Modèle</th><th>Usage recommandé</th><th>Spécifications</th><th>DIR</th><th>Région</th><th class="num">Prix</th><th class="num">Poids</th><th>Liens</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Mares XR</td>
+          <td>XR-Rec Trim Single</td>
+          <td>Set, harnais rembourré</td>
+          <td>Plaque alu skeleton 0,75 kg</td>
+          <td>🟡</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">468,99 €</td>
+          <td class="num">2,8 kg</td>
+          <td><a href="https://www.lucasdivestore.com/en/mares-xr-rec-trim-single-backmount-set.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.mares.com/en_US/xr-rec-trim-single-backmount-set-417566" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://static.wixstatic.com/media/fb1bfe_3421231d6af448c0a1adc7a1416d8892~mv2.png" alt="Audax Pro Imbraco Stealth alu + Sacca 16" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Audax Pro</td>
+          <td>Imbraco Stealth alu + Sacca 16</td>
+          <td>Sur-mesure 10-15 j, sacca monocellule</td>
+          <td>Plaque alu 0,23 kg</td>
+          <td>🟡</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~469 €</td>
+          <td class="num">~2,5 kg</td>
+          <td><a href="https://www.audaxpro.com/product-page/im-2010-imbraco-stealth-con-piastra-alluminio-col-nero" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.audaxpro.com/en/product-page/stealth-16" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>OMS</td>
+          <td>Plaque + harnais + Performance Mono 32</td>
+          <td>À assembler (3 réf.)</td>
+          <td>Plaque alu 0,79 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~523 €</td>
+          <td class="num">~2,5 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/oms-performance-mono-wing-32-lbs/137602208/p" target="_blank" rel="noopener">Revendeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://katalog.tecline.com.pl/en/img/4306/skrzydlo-donut-15-z-wbudowanym-adapterem-i-uprzeza.jpg" alt="Tecline Donut 15 + harnais DIR" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Tecline</td>
+          <td>Donut 15 + harnais DIR</td>
+          <td>Set alu, plaque carbone en option</td>
+          <td>Donut 15 + harnais DIR continu</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">599 € (+385 plaque carbone)</td>
+          <td class="num">~2,8 kg</td>
+          <td><a href="https://www.diveavenue.com/en/tecline/1215-wing-donut-15-tecline-harness-dir.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://katalog.tecline.com.pl/en/donut-15-with-dir-harness-built-in-mono-adaptor,3,5174,3236" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.dirzone.com/pics/40/40-1.png" alt="DIRZone RING Wing Set Single" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>DIRZone</td>
+          <td>RING Wing Set Single</td>
+          <td>Set complet alu léger</td>
+          <td>Plaque alu 0,75 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~620–630 €</td>
+          <td class="num">~1,9–2,1 kg</td>
+          <td><a href="https://www.divesupport.de/en/dir-zone-ring-wing-set-single/400590" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.dirzone.com/cms/en/products/17/40" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://diverite.com/wp-content/uploads/2025/01/BC6035_Voyager-Wing_Hero.jpg" alt="Dive Rite XT Lite + TransPlate + Voyager" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Dive Rite</td>
+          <td>XT Lite + TransPlate + Voyager</td>
+          <td>À assembler, plaque inox</td>
+          <td>Inox 1,18 kg (pas de carbone)</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~625 €</td>
+          <td class="num">~2,7 kg</td>
+          <td><a href="https://www.gidivestore.com/eu/en/single-tank-wings/dive-rite-voyager-with-elbow-12-black.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://diverite.com/products/singletank/single-tank-wings/voyager-wing/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.xdeep.eu/pictures/products/zen/product.png" alt="xDeep NX Zen Ultralight Standard" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>xDeep</td>
+          <td>NX Zen Ultralight Standard</td>
+          <td>Set voyage alu-magnésium</td>
+          <td><span class="na">—</span></td>
+          <td>✅ (Standard)</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">628,99 €</td>
+          <td class="num">~3 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/xdeep-zen-ultralight-standard-without-weight-pockets-wing/136806313/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.xdeep.eu/single-tank-wing-bcd-system-zen-pr-121.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.finnsub.com/gallery/660x568/ultra13_blk-blue_1.jpg" alt="Finnsub FLY Ultralite Set" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Finnsub</td>
+          <td>FLY Ultralite Set</td>
+          <td>Set voyage alu</td>
+          <td><span class="na">—</span></td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">639 €</td>
+          <td class="num">~2,5 kg</td>
+          <td><a href="https://www.diveavenue.com/en/finnsub/239-travel-wing-finnsub-ultralite-set.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.finnsub.com/en/backmount-wings/ultralite-set" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://johnsonoutdoors.widen.net/content/7lurfamn6f/webp/SP_22248030_S-Tek_Pure_1.webp?w=640" alt="Scubapro S-Tek Pure" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Scubapro</td>
+          <td>S-Tek Pure</td>
+          <td>Set inox ou alu (2 réf.)</td>
+          <td><span class="na">—</span></td>
+          <td>✅ (Pure)</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">664 € alu / 779 € set inox</td>
+          <td class="num">~2,9 kg (alu)</td>
+          <td><a href="https://www.lucasdivestore.com/en/scubapro-s-tek-pure-system.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://scubapro.johnsonoutdoors.com/us/shop/bcds/s-tek-pure-system-package" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.hollis.com/wp-content/uploads/sites/5/2021/06/Hollis_STEliteSystem_01-1200x1200-1.jpg" alt="Hollis ST Elite Travel" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Hollis</td>
+          <td>ST Elite Travel</td>
+          <td>Travel alu 10 kg, harnais réglable</td>
+          <td>Plaque alu 1,0 kg</td>
+          <td>🟡</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">680 € (+380 ST35)</td>
+          <td class="num">~2,7–3 kg</td>
+          <td><a href="https://www.sous-la-mer.com/hollis-st-elite-travel-system-noir-md-lg-15655655-modele3.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.hollis.com/product/st-elite-system/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://us.apeksdiving.com/cdn/shop/files/20Grey_1_bb352506-e3c9-4ff7-824b-43f3e87b97ae.jpg" alt="Apeks WTX-D30 + plaque alu" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Apeks</td>
+          <td>WTX-D30 + plaque alu</td>
+          <td>Set en stock</td>
+          <td>Plaque alu 6061 0,78 kg</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">719 €</td>
+          <td class="num">~3,3 kg</td>
+          <td><a href="https://www.planet-plongee.fr/plongee-tek/7072-kit-apeks-wtxd30-ou-d40-plaque-et-harnais-3665771064858.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://us.apeksdiving.com/products/wtx-d30-complete-dive-bcd-with-aluminium-plate" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="pick">
+          <td><img class="thumb" src="https://cdn.sanity.io/images/1jl085ly/production/f9223ff49c42f7121c85186ee7ee2bb8b383c838-1200x1200.png" alt="Halcyon Pro Single Cylinder + Era 30" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Halcyon</td>
+          <td>Pro Single Cylinder + Era 30<div class="badges"><span class="badge bm">★ Backmount BCD</span></div></td>
+          <td>Système carbone monté (SET)</td>
+          <td>Platine carbone 0,54 kg + STA carbone + harnais Cinch deluxe + aile Era 30 (4 poches lest)</td>
+          <td>✅</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">1 190–1 210 €</td>
+          <td class="num">~4 kg</td>
+          <td><a href="https://www.dive24.store/en/product-page/halcyon-eclipse-pro-wingsystem" target="_blank" rel="noopener">Revendeur</a><br><a href="https://halcyon.net/products/pro-bc-system-set" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="notdispo">
+          <td><img class="thumb" src="https://www.deep6gear.com/media/catalog/product/cache/8d486d85b7cda8adcebef734ac067a1c/_/d/_dsc0301.jpg" alt="Deep 6 Single Tank BP/W Package" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Deep 6</td>
+          <td>Single Tank BP/W Package</td>
+          <td>Import US (pas de revendeur EU)</td>
+          <td>Plaque alu</td>
+          <td>✅</td>
+          <td>US <span class="tag no">Import</span></td>
+          <td class="num">~490 $</td>
+          <td class="num">~3–3,6 kg</td>
+          <td><a href="https://www.deep6gear.com/deep-6-single-tank-backplate-and-wing-package.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.deep6gear.com/deep-6-single-tank-backplate-and-wing-package.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="notdispo">
+          <td><img class="thumb" src="https://www.zeagle.com/wp-content/uploads/sites/3/2020/09/519-BPC_1-1.jpg" alt="Zeagle 30 LB Backplate Combo" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Zeagle</td>
+          <td>30 LB Backplate Combo</td>
+          <td>Import US, inox</td>
+          <td>Plaque inox</td>
+          <td>✅</td>
+          <td>US <span class="tag no">Import</span></td>
+          <td class="num">650 $</td>
+          <td class="num">~3,3 kg</td>
+          <td><a href="https://www.zeagle.com/product/bcd-components/backplate-haress-systems/backplate-combo-pack/" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.zeagle.com/product/specialty-buoyancy/back-inflate/backplate-combo-pack/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+      </tbody>
+    </table>
+<footer>Page générée automatiquement par <code>generate.js</code> depuis <code>gear.db</code>. Ne pas éditer à la main.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comparatif — Palmes</title>
+<style>
+  :root{--teal:#0f5e6b;--teal2:#13788a;--ink:#1c2b30;--line:#e3e9eb;--bg:#f4f7f8;--muted:#6a7a7d;
+        --green:#1e7e34;--gold:#9a6a00;--slate:#5a6b6e;--bm:#e7f1f3;--sm:#fbf2dd;--pick:#eef7f4}
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);margin:0;background:var(--bg);line-height:1.45}
+  a{color:var(--teal2)}
+  .nav{background:var(--teal);color:#fff;padding:0 18px}
+  .nav .inner{max-width:1100px;margin:0 auto;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+  .nav a{color:#fff;text-decoration:none;font-size:13.5px;font-weight:bold;padding:13px 14px;display:inline-block}
+  .nav a:hover{background:rgba(255,255,255,.12)}
+  .nav a.active{background:rgba(255,255,255,.20)}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+  h1{font-size:25px;margin:6px 0 2px;color:var(--ink)}
+  .lead{color:var(--muted);font-size:13.5px;margin:2px 0 22px}
+  h2{font-size:20px;margin:2px 0 10px;color:var(--teal)}
+  h3{font-size:14px;color:#fff;background:var(--teal);padding:8px 13px;border-radius:6px;margin:26px 0 12px;
+     display:flex;align-items:center;gap:8px}
+  h3 .count{margin-left:auto;font-size:11px;font-weight:normal;background:rgba(255,255,255,.18);padding:2px 9px;border-radius:20px}
+  /* Cartes devis (accueil) */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(244px,1fr));gap:16px;margin:0 0 22px}
+  .cfg{background:#fff;border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:12px;
+       padding:18px 20px;box-shadow:0 2px 8px rgba(15,94,107,.08);display:flex;flex-direction:column}
+  .cfg.bm{border-top-color:var(--teal)}
+  .cfg.sm{border-top-color:var(--gold)}
+  .cfg.th{border-top-color:var(--green)}
+  .cfg.ac{border-top-color:var(--slate)}
+  .cfg .kicker{font-size:11px;font-weight:bold;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+  .cfg h2{font-size:19px;margin:2px 0 10px}
+  .cfg.sm h2{color:var(--gold)}
+  .cfg.th h2{color:var(--green)}
+  .cfg.ac h2{color:var(--slate)}
+  .tot{display:flex;gap:22px;margin:6px 0 4px}
+  .tot .big{font-size:23px;font-weight:bold;color:var(--ink)}
+  .tot .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .split{font-size:12px;color:var(--muted);margin:10px 0 0;border-top:1px dashed var(--line);padding-top:9px}
+  .split b{color:var(--ink)}
+  .split .row{display:flex;justify-content:space-between;padding:2px 0}
+  .cfg .go{margin-top:auto;padding-top:15px}
+  .btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:bold;
+       font-size:13.5px;padding:10px 16px;border-radius:8px}
+  .cfg.sm .btn{background:var(--gold)}
+  .cfg.th .btn{background:var(--green)}
+  .cfg.ac .btn{background:var(--slate)}
+  .btn:hover{filter:brightness(1.08)}
+  /* Setups complets */
+  .combos{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin:0 0 24px}
+  .combo{background:#fff;border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:10px;padding:13px 16px}
+  .combo.sm{border-left-color:var(--gold)}
+  .combo .ttl{font-weight:bold;color:var(--ink);font-size:14px}
+  .combo .big{font-size:20px;font-weight:bold;color:var(--teal)}
+  .combo.sm .big{color:var(--gold)}
+  .combo .parts{font-size:11.5px;color:var(--muted);margin-top:4px}
+  /* Grille de liens comparatifs */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .card{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;
+        text-decoration:none;color:inherit;transition:transform .08s ease,box-shadow .12s ease,border-color .12s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(15,94,107,.16);border-color:#bcd7dc}
+  .card .t{font-weight:bold;color:var(--teal);font-size:13.5px;display:block;margin-bottom:2px}
+  .card .d{color:var(--muted);font-size:11.5px;display:block}
+  /* Tableaux */
+  table{border-collapse:collapse;width:100%;background:#fff;font-size:12.5px;margin:0 0 8px;
+        border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  thead th{background:var(--teal);color:#fff;text-align:left;padding:8px 10px;font-size:11.5px;
+           font-weight:bold;border-right:1px solid rgba(255,255,255,.15)}
+  tbody td{padding:7px 10px;border-top:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#fafcfc}
+  td.num,th.num{text-align:right;white-space:nowrap}
+  .na{color:var(--muted)}
+  .thumb{width:52px;height:52px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:6px;display:block}
+  td .thumb{margin:0 auto}
+  .noimg{color:var(--muted);font-size:11px}
+  .equip{display:flex;gap:13px;align-items:center}
+  .ephoto{width:72px;height:72px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px;display:block;padding:4px}
+  .ephoto-link{display:inline-block;line-height:0}
+  .ephoto-link:hover .ephoto{border-color:var(--teal);box-shadow:0 2px 10px rgba(15,94,107,.20)}
+  span.ephoto{width:72px;height:72px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11px}
+  .equip-name{font-size:13.5px;font-weight:bold}
+  .equip-name a{color:var(--teal2);text-decoration:none}
+  .equip-name a:hover{text-decoration:underline}
+  .pick{background:var(--pick)!important}
+  .badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+  .badge{font-size:10px;font-weight:bold;padding:2px 7px;border-radius:20px;white-space:nowrap}
+  .badge.bm{background:var(--teal);color:#fff}
+  .badge.sm{background:var(--gold);color:#fff}
+  .badge.th{background:var(--green);color:#fff}
+  .badge.ac{background:var(--slate);color:#fff}
+  .notdispo{opacity:.62}
+  .tag{font-size:10px;font-weight:bold;padding:1px 6px;border-radius:4px;background:#eef4f5;color:var(--muted)}
+  .tag.no{background:#fbe9e9;color:#a33}
+  .subtotal td{background:#eef4f5;font-weight:bold;border-top:2px solid var(--teal)}
+  .grandtotal td{background:var(--teal);color:#fff;font-weight:bold;font-size:13.5px}
+  .grandtotal a{color:#fff}
+  .secwrap{margin-bottom:26px}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+  @media print{.card,.cfg,.combo{box-shadow:none}.nav{display:none}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="inner">
+      <a href="index.html">Accueil</a>
+      <a href="liste-bcd_backmount.html">Backmount BCD</a>
+      <a href="liste-bcd_sidemount.html">Sidemount BCD</a>
+      <a href="liste-thermal.html">Thermique</a>
+      <a href="liste-accessories.html">Accessoires</a>
+    </div></nav>
+<div class="wrap">
+<h1>Comparatif — Palmes</h1>
+<p class="lead">21 modèles comparés. Tri : disponibles en Europe d'abord, par prix croissant. Les lignes surlignées sont retenues dans un devis.</p>
+<table>
+      <thead><tr><th>Photo</th><th>Marque</th><th>Modèle</th><th>Usage recommandé</th><th>Spécifications</th><th>Région</th><th class="num">Prix</th><th class="num">Poids</th><th>Liens</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><img class="thumb" src="https://c4carbon.com/spearfishing/wp-content/uploads/2024/10/Pinna-Storm-prospettiva-TIDE-bollobanda.jpg" alt="C4 Carbon Storm" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>C4 Carbon</td>
+          <td>Storm</td>
+          <td>Apnée, chausson fermé (pas frog/back)</td>
+          <td>Carbone</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">50,49 €</td>
+          <td class="num">~0,6 kg/palme</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/c4-storm-diving-fins/140472300/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://c4carbon.com/en/product/storm-fins/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.ndiver.com/storage/products/75/images/17226037349b3bc53b043480f131b67b6e07dfff71.png" alt="Northern Diver Jet Fins" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Northern Diver</td>
+          <td>Jet Fins</td>
+          <td>Flottaison négative</td>
+          <td>Spring en option</td>
+          <td>UK <span class="tag">EU dispo</span></td>
+          <td class="num">~63 €</td>
+          <td class="num">lourde</td>
+          <td><a href="https://www.ndiver.com/jet-fins" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.ndiver.com/jet-fins" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Seac Sub</td>
+          <td>Propulsion S</td>
+          <td>Flottaison positive, frog/back/heli OK</td>
+          <td>Spring en option</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">73,99 €</td>
+          <td class="num">~2,0 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/seac-propulsion-s-diving-fins/136678982/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://seacsub.com/product/propulsion-s/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Aqua Lung</td>
+          <td>X-Shot</td>
+          <td>Flottaison variable (≈neutre)</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">78,99 €</td>
+          <td class="num">~1,8 kg</td>
+          <td><a href="https://www.sous-la-mer.com/palmes-de-talons-ouvertes-xshot-354767-modele3.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://us.aqualung.com/en/FA175121.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.beuchat-sports.com/3522-medium_default/powerjet-avec-sangles-a-ressorts.jpg" alt="Beuchat PowerJet" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Beuchat</td>
+          <td>PowerJet</td>
+          <td>Flottaison négative</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">118,99 €</td>
+          <td class="num">légère</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/beuchat-powerjet-diving-fins/1236639/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.beuchat-sports.com/gb/fins-diving/197-powerjet-avec-sangles-a-ressorts-3278551541717.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.xdeep.eu/pictures/products/fins/standard/big/1.png" alt="xDeep EX1 (Soft)" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>xDeep</td>
+          <td>EX1 (Soft)</td>
+          <td>Flottaison négative (clone Jetfin)</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">125 €</td>
+          <td class="num">~2,5 kg</td>
+          <td><a href="https://www.diveavenue.com/en/xdeep/2030-xdeep-ex1-diving-fins-soft-version.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.xdeep.eu/fins-jet-type-technical-pr-123.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>OMS</td>
+          <td>Slipstream (Monoprène)</td>
+          <td>Flottaison neutre, jet léger</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">128 €</td>
+          <td class="num">~2,4 kg</td>
+          <td><a href="https://www.diveavenue.com/en/oms/1514-oms-slipstream-fins-adjustable-with-spring.html" target="_blank" rel="noopener">Revendeur</a></td>
+        </tr>
+        <tr class="pick">
+          <td><img class="thumb" src="https://teclinediving.eu/wp-content/uploads/2020/10/1-1-1-e1603225962487.jpg" alt="Tecline LightJet (T40015)" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Tecline</td>
+          <td>LightJet (T40015)<div class="badges"><span class="badge ac">★ Accessoires</span></div></td>
+          <td>Flottaison positive, lame souple, frog/back/heli</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">129 €</td>
+          <td class="num">1,6–2,2 kg</td>
+          <td><a href="https://www.diveavenue.com/en/tecline/2401-lightjet-rubber-fin-with-spring-straps.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://teclinediving.eu/lightjet/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://tusa.com/wp-content/uploads/2024/01/Layer-6635.png" alt="TUSA Solla (SF-22)" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>TUSA</td>
+          <td>Solla (SF-22)</td>
+          <td>Flottaison positive, lame longue</td>
+          <td>Spring en option</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">129 €</td>
+          <td class="num">très légère</td>
+          <td><a href="https://www.nootica.com/tusa-solla-b-scuba-diving-fins-red.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://tusa.com/us-en/TUSA/Fins/Solla" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://store.cressi.com/cdn/shop/files/Origin_LD__azure__CA251220_02__WEB_5382e8ba-5f48-450e-84ca-f93026d2964e.jpg?v=1757516731" alt="Cressi Origin LD" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Cressi</td>
+          <td>Origin LD</td>
+          <td>Flottaison positive</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">131,99 €</td>
+          <td class="num">~3,0 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/cressi-origin-ld-diving-fins/141846374/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://store.cressi.com/products/26-origin-fins" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://us.apeksdiving.com/cdn/shop/files/FA248_Black_1.jpg?v=1768311131&amp;width=500" alt="Apeks RK3 (standard)" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Apeks</td>
+          <td>RK3 (standard)</td>
+          <td>Flottaison positive, jet rigide</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">138,99 €</td>
+          <td class="num">~2,0 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/apeks-rk3-diving-fins/137691341/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://us.apeksdiving.com/products/rk3-dive-fins" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Mares</td>
+          <td>X-Stream (Bungee)</td>
+          <td>Flottaison positive, lame molle, back kick limité</td>
+          <td>Bungee</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~149 €</td>
+          <td class="num">~1,3 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/mares-x-stream-diving-fins/137048492/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.mares.com/en/product/x-stream-24" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.atomicaquatics.com/wp-content/uploads/sites/4/2017/10/05-0153-0P_1.jpg" alt="Atomic X1 BladeFin" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Atomic</td>
+          <td>X1 BladeFin</td>
+          <td>Flottaison variable, anti-roulis</td>
+          <td>Spring en option</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">161,99 €</td>
+          <td class="num">~2,3 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/fr/atomic-aquatics-palmes-plongee-x1/136881125/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.atomicaquatics.com/products/fins/x1bladefin/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://diverite.com/wp-content/uploads/2023/01/XT-Fins-2020_ES510_Pair-View.jpg" alt="Dive Rite XT Fins" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Dive Rite</td>
+          <td>XT Fins</td>
+          <td>Flottaison neutre, tous kicks</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">169,99 €</td>
+          <td class="num">~2,6 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/dive-rite-xt-diving-fins/1305366/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://diverite.com/products/masks/xt-fins/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Fourth Element</td>
+          <td>Tech Fin</td>
+          <td>Flottaison négative</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">~175 €</td>
+          <td class="num">~2,0 kg</td>
+          <td><a href="https://varuste.net/en/p121796/fourth-element-tech-fin" target="_blank" rel="noopener">Revendeur</a><br><a href="https://fourthelement.com/product/tech-fin-black/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://www.hollis.com/wp-content/uploads/sites/5/2020/05/f1lt_gray-1.jpg" alt="Hollis F1 LT" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Hollis</td>
+          <td>F1 LT</td>
+          <td>Flottaison négative</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">178,49 €</td>
+          <td class="num">~3,0 kg</td>
+          <td><a href="https://www.tradeinn.com/diveinn/en/hollis-f1-lt-diving-fins/137543848/p" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.hollis.com/product/f1-lt/" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><span class="noimg">—</span></td>
+          <td>Poseidon</td>
+          <td>Trident</td>
+          <td>Neutre vers lég. négative, cave/CCR</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">179 €</td>
+          <td class="num">lourde</td>
+          <td><a href="https://proteushop.com/fr/palmes/92705-palmes-poseidon-trident-noires.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.poseidon.com/en-us/article/trident-fin" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://johnsonoutdoors.widen.net/content/8qau9imhan/webp/SP_25500X00_STekFins_06.webp" alt="Scubapro S-Tek Fin" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Scubapro</td>
+          <td>S-Tek Fin</td>
+          <td>Flottaison réglable (plaques inox), lame pré-angulée 30°</td>
+          <td>Bungee (spring option)</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">183 €</td>
+          <td class="num">~2,0 kg</td>
+          <td><a href="https://www.palanquee.com/palmes-s-tek-scubapro" target="_blank" rel="noopener">Revendeur</a><br><a href="https://scubapro.johnsonoutdoors.com/us/shop/fins/s-tek-fin" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr>
+          <td><img class="thumb" src="https://cdn.sanity.io/images/1jl085ly/production/044ced43612ddfea5697b2297324bd1da7ec4d40-1200x1200.png" alt="Halcyon Vector Pro" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Halcyon</td>
+          <td>Vector Pro</td>
+          <td>Flottaison réglable (lest inox 6 crans), back/heli</td>
+          <td>Spring straps inox inclus</td>
+          <td>EU <span class="tag">EU dispo</span></td>
+          <td class="num">325 €</td>
+          <td class="num">~2,82 kg</td>
+          <td><a href="https://www.diveavenue.com/en/diving-fins/3998-halcyon-vector-pro-fins.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.halcyon.net/products/halcyon-vector-pro-fins" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="notdispo">
+          <td><img class="thumb" src="https://www.istsports.com/images/P/F1-08.jpg" alt="IST Rubber Rocket" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>IST</td>
+          <td>Rubber Rocket</td>
+          <td>Flottaison négative</td>
+          <td>Spring en option</td>
+          <td>US <span class="tag no">Import</span></td>
+          <td class="num">~115 € (US)</td>
+          <td class="num">~1,6 kg</td>
+          <td><a href="https://www.americandivingsupply.com/IST-Propulsion-Rubber-Rocket-Fins-p/f4-xx.htm" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.istsports.com/rubber-rocket-fins-f1.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+        <tr class="notdispo">
+          <td><img class="thumb" src="https://www.deep6gear.com/media/catalog/product/cache/18f0e0f04b42b1ab8ec9b466fcccd916/o/r/orange_fins1_7.jpg" alt="Deep6 Eddy (standard)" loading="lazy" referrerpolicy="no-referrer"></td>
+          <td>Deep6</td>
+          <td>Eddy (standard)</td>
+          <td>Flottaison neutre</td>
+          <td>Spring straps inox inclus</td>
+          <td>US <span class="tag no">Import</span></td>
+          <td class="num">~197 € (US)</td>
+          <td class="num">~2,1 kg</td>
+          <td><a href="https://www.deep6gear.com/deep6-eddy-fin.html" target="_blank" rel="noopener">Revendeur</a><br><a href="https://www.deep6gear.com/deep6-eddy-fin.html" target="_blank" rel="noopener">Constructeur</a></td>
+        </tr>
+      </tbody>
+    </table>
+<footer>Page générée automatiquement par <code>generate.js</code> depuis <code>gear.db</code>. Ne pas éditer à la main.</footer>
+</div>
+</body>
+</html>
