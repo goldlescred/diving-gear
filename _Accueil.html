@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rachat matériel plongée — mes 2 configs</title>
+<style>
+  :root{--teal:#0f5e6b;--teal2:#13788a;--ink:#1c2b30;--line:#e3e9eb;--bg:#f4f7f8;--muted:#6a7a7d;
+        --green:#1e7e34;--gold:#9a6a00}
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);margin:0;background:var(--bg);line-height:1.45}
+  .wrap{max-width:920px;margin:0 auto;padding:22px 18px 60px}
+  h1{font-size:25px;margin:6px 0 2px}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 22px}
+
+  /* --- Les 2 configs (le coeur) --- */
+  .configs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 10px}
+  @media(max-width:680px){.configs{grid-template-columns:1fr}}
+  .cfg{background:#fff;border:1px solid var(--line);border-top:5px solid var(--teal);border-radius:12px;
+       padding:18px 20px;box-shadow:0 2px 8px rgba(15,94,107,.08);display:flex;flex-direction:column}
+  .cfg.sm{border-top-color:#b8860b}
+  .cfg .kicker{font-size:11px;font-weight:bold;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+  .cfg h2{font-size:20px;margin:2px 0 10px;color:var(--teal)}
+  .cfg.sm h2{color:#b8860b}
+  .price{font-size:30px;font-weight:bold;color:var(--ink);line-height:1}
+  .price .kg{font-size:15px;font-weight:bold;color:var(--muted);margin-left:8px}
+  .split{font-size:12px;color:var(--muted);margin:8px 0 0;border-top:1px dashed var(--line);padding-top:8px}
+  .split b{color:var(--ink)}
+  .cfg .go{margin-top:14px}
+  .btn{display:inline-block;background:var(--teal);color:#fff;text-decoration:none;font-weight:bold;
+       font-size:13.5px;padding:10px 16px;border-radius:8px}
+  .cfg.sm .btn{background:#b8860b}
+  .btn:hover{filter:brightness(1.08)}
+  .sublink{display:block;margin-top:9px;font-size:12.5px;color:var(--teal2);text-decoration:none}
+  .sublink:hover{text-decoration:underline}
+  .hors{font-size:12px;color:var(--muted);background:#eef4f5;border:1px solid var(--line);border-radius:8px;
+        padding:9px 13px;margin:6px 0 18px}
+  .ref{font-size:12px;color:var(--muted);margin:0 0 26px;line-height:1.5}
+  .ref a{color:var(--teal2);text-decoration:none;font-weight:bold}
+  .ref a:hover{text-decoration:underline}
+
+  /* --- Sections secondaires --- */
+  h3{font-size:14px;color:#fff;background:var(--teal);padding:8px 13px;border-radius:6px;margin:26px 0 12px;
+     display:flex;align-items:center;gap:8px}
+  h3 .count{margin-left:auto;font-size:11px;font-weight:normal;background:rgba(255,255,255,.18);padding:2px 9px;border-radius:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .card{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 14px;
+        text-decoration:none;color:inherit;transition:transform .08s ease,box-shadow .12s ease,border-color .12s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(15,94,107,.16);border-color:#bcd7dc}
+  .card .t{font-weight:bold;color:var(--teal);font-size:13.5px;display:block;margin-bottom:2px}
+  .card .d{color:var(--muted);font-size:11.5px;display:block}
+  footer{margin-top:34px;padding-top:14px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+  @media print{.card,.cfg{box-shadow:none}}
+</style>
+</head>
+<body>
+<div data-nav="autobar" class="nav-bar"><a href="_Accueil.html" target="_self">🏠 Accueil</a></div>
+<script src="_nav.js"></script>
+<div class="wrap">
+
+  <h1>🤿 Rachat de mon matériel — mes 2 configs</h1>
+  <p class="sub">« Que du neuf » · revendeurs EU · 2026.</p>
+
+  <div class="configs">
+
+    <!-- BACKMOUNT -->
+    <div class="cfg">
+      <span class="kicker">Config 1 · single tank · long hose</span>
+      <h2>🅑 Backmount</h2>
+      <div class="price">≈ 4 615 €<span class="kg">≈ 16,6 kg</span></div>
+      <div class="split">Système ≈ <b>1 846 €</b> &nbsp;·&nbsp; Perso ≈ <b>2 321 €</b> &nbsp;·&nbsp; Accessoires ≈ <b>448 €</b></div>
+      <div class="go">
+        <a class="btn" href="Rachat_RECAP-global.html">Voir la config backmount complète →</a>
+        <a class="sublink" href="Rachat_BCD-Detendeur_backmount-single-tank.html">+ Module détaillé gilet + détendeur (ligne par ligne)</a>
+      </div>
+    </div>
+
+    <!-- SIDEMOUNT -->
+    <div class="cfg sm">
+      <span class="kicker">Config 2 · sidemount</span>
+      <h2>🅢 Sidemount</h2>
+      <div class="price">≈ 5 678 €<span class="kg">≈ 17,7 kg</span></div>
+      <div class="split">Système ≈ <b>2 909 €</b> &nbsp;·&nbsp; Perso ≈ <b>2 321 €</b> &nbsp;·&nbsp; Accessoires ≈ <b>448 €</b></div>
+      <div class="go">
+        <a class="btn" href="Rachat_RECAP-sidemount.html">Voir la config sidemount complète →</a>
+        <a class="sublink" href="Rachat_RECAP-sidemount.html">Même perso que le backmount · stab + détendeurs remplacés</a>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="hors">📦 Les deux totaux sont <b>hors blocs + plomb</b> (loués sur place) → sous la franchise soute 23 kg.</p>
+
+  <p class="ref">Fiches de référence : <a href="Rachat_Equipement-perso.html">détail perso</a> · <a href="Rachat_BCD-Detendeur_backmount-single-tank.html">détail gilet + détendeur</a>.</p>
+
+  <footer>Totaux issus de <code>Rachat_RECAP-global.html</code> (backmount) et <code>Rachat_RECAP-sidemount.html</code> (sidemount) — données non modifiées. Navigation : <code>_nav.js</code>.</footer>
+
+</div>
+</body>
+</html>
